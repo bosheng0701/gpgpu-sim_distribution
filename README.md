@@ -20,7 +20,7 @@ Symposium on Performance Analysis of Systems and Software (ISPASS), Boston, MA,
 April 19-21, 2009.
 
 If you use the GPUWattch energy model in your research, please cite:
-
+//TODO:
 Jingwen Leng, Tayler Hetherington, Ahmed ElTantawy, Syed Gilani, Nam Sung Kim,
 Tor M. Aamodt, Vijay Janapa Reddi, GPUWattch: Enabling Energy Optimizations in
 GPGPUs, In proceedings of the ACM/IEEE International Symposium on Computer
