@@ -197,6 +197,7 @@ public:
 
    size_t threads_per_cta() const
    {
+       printf("!!!%d %d %d",m_block_dim.x,m_block_dim.y,m_block_dim.z );
       return m_block_dim.x * m_block_dim.y * m_block_dim.z;
    } 
 

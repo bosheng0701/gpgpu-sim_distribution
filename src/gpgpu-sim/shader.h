@@ -783,7 +783,7 @@ private:
          m_free = true;
          m_warp = NULL;
          m_output_register = NULL;
-         m_src_op = new op_t[MAX_REG_OPERANDS*2];
+         m_src_op = new op_t[MAX_REG_OPERANDS*2]; //NOTE:新增op_t的空間
          m_not_ready.reset();
          m_warp_id = -1;
          m_num_banks = 0;

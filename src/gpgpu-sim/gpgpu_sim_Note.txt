@@ -1,0 +1,16 @@
+collector_unit_t = cu
+dispatch_unit_t = du
+warp_id = wid 
+ldst_unit {
+    writeback() // might cause stall 
+    mem_operand_collector->step()
+        1. dispatch_ready_cu():分配ready_cu
+        2. allocate_reads():process read requests that do not have conflicts
+        3. allocate_cu(): cu has been allocated, no need to search more
+        4. process_banks():Reset_alloction
+}
+mem_fetch = mf     
+ virtual bool full( unsigned size, bool write ) const 
+    {
+        return m_cluster->icnt_injection_buffer_full(size,write);
+    }

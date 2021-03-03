@@ -1794,9 +1794,9 @@ void ldst_unit::issue( register_set &reg_set )
 */
 void ldst_unit::cycle()
 {
-   writeback();
+   writeback(); //NOTE: 寫回有最高優先權
    m_operand_collector->step();
-   for( unsigned stage=0; (stage+1)<m_pipeline_depth; stage++ ) 
+   for( unsigned stage=0; (stage+1)<m_pipeline_depth; stage++ ) //Confuse: pipeline 的順序
        if( m_pipeline_reg[stage]->empty() && !m_pipeline_reg[stage+1]->empty() )
             move_warp(m_pipeline_reg[stage], m_pipeline_reg[stage+1]);
 
@@ -1822,7 +1822,7 @@ void ldst_unit::cycle()
                assert( !mf->get_is_write() ); // L1 cache is write evict, allocate line on load miss only
 
                bool bypassL1D = false; 
-               if ( CACHE_GLOBAL == mf->get_inst().cache_op || (m_L1D == NULL) ) {
+               if ( CACHE_GLOBAL == mf->get_inst().cache_op || (m_L1D == NULL) ) {//NOTE: L1d is null or type is cache global
                    bypassL1D = true; 
                } else if (mf->get_access_type() == GLOBAL_ACC_R || mf->get_access_type() == GLOBAL_ACC_W) { // global memory access 
                    if (m_core->get_config()->gmem_skip_L1D)
@@ -2956,7 +2956,7 @@ void opndcoll_rfu_t::init( unsigned num_banks, shader_core_ctx *shader )
 int register_bank(int regnum, int wid, unsigned num_banks, unsigned bank_warp_shift)
 {
    int bank = regnum;
-   if (bank_warp_shift)
+   if (bank_warp_shift) //Confuse: warp shift??
       bank += wid;
    return bank % num_banks;
 }
@@ -3001,12 +3001,12 @@ void opndcoll_rfu_t::dispatch_ready_cu()
       dispatch_unit_t &du = m_dispatch_units[p];
       collector_unit_t *cu = du.find_ready();
       if( cu ) {
-    	 for(unsigned i=0;i<(cu->get_num_operands()-cu->get_num_regs());i++){
+    	 for(unsigned i=0;i<(cu->get_num_operands()-cu->get_num_regs());i++){ //Confuse: 相減??
    	      if(m_shader->get_config()->gpgpu_clock_gated_reg_file){
    	    	  unsigned active_count=0;
    	    	  for(unsigned i=0;i<m_shader->get_config()->warp_size;i=i+m_shader->get_config()->n_regfile_gating_group){
    	    		  for(unsigned j=0;j<m_shader->get_config()->n_regfile_gating_group;j++){
-   	    			  if(cu->get_active_mask().test(i+j)){
+   	    			  if(cu->get_active_mask().test(i+j)){//Confuse: active_count??
    	    				  active_count+=m_shader->get_config()->n_regfile_gating_group;
    	    				  break;
    	    			  }

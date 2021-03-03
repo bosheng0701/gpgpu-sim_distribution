@@ -1095,7 +1095,7 @@ l1_cache::access( new_addr_type addr,
 {
     return data_cache::access( addr, mf, time, events );
 }
-
+//NOTE: L1 access
 // The l2 cache access function calls the base data_cache access
 // implementation.  When the L2 needs to diverge from L1, L2 specific
 // changes should be made here.
